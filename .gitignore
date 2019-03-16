@@ -1,0 +1,10 @@
+# api
+__pycache__
+.venv
+.vscode
+
+# view
+node_modules
+
+# config
+settings/config.yaml
