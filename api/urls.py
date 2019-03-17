@@ -36,17 +36,20 @@ def get_user_timeline():
     
     api = tweepy.API(auth)
 
+    exist_keys = [key.tweet_id for key in db_session.query(Tweet).all()]
+
     fav_list = []
     for fav in api.favorites():
         t = fav._json
         media = t['entities']['media']
         image_urls = [media[i]['media_url'] if len(media) > i else None for i in range(4)]
         print(image_urls)
-        tweet = Tweet(t['id'], t['user']['id'], t['text'], image_urls)
-        fav_list.append(tweet)
+        if t['id'] not in exist_keys:
+            tweet = Tweet(t['id'], t['user']['id'], t['text'], image_urls)
+            fav_list.append(tweet)
 
     db_session.add_all(fav_list)
-    #db_session.commit()
+    db_session.commit()
 
     response = {}
     for t in db_session.query(Tweet).all():
