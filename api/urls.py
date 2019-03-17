@@ -25,7 +25,7 @@ def get_user_timeline():
     verifier = request.args.get('oauth_verifier')
     if token is None or verifier is None:
         return False
-    
+
     auth = tweepy.OAuthHandler(SETTINGS['TWITTER_API_KEY'], SETTINGS['TWITTER_API_SECRET_KEY'])
     auth.request_token = token
 
@@ -33,7 +33,7 @@ def get_user_timeline():
         auth.get_access_token(verifier)
     except Exception:
         return {}
-    
+
     api = tweepy.API(auth)
 
     exist_keys = [key.tweet_id for key in db_session.query(Tweet).all()]
