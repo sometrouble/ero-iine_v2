@@ -4,6 +4,9 @@ from flask import jsonify, redirect, session, request
 from main import api
 from settings import SETTINGS
 
+from database import db_session
+from models.eroiine import Tweet
+
 @api.route('/')
 def main():
     timeline = get_user_timeline()
@@ -33,4 +36,27 @@ def get_user_timeline():
     
     api = tweepy.API(auth)
 
-    return api.favorites()[0].text
+    fav_list = []
+    for fav in api.favorites():
+        t = fav._json
+        media = t['entities']['media']
+        image_urls = [media[i]['media_url'] if len(media) > i else None for i in range(4)]
+        print(image_urls)
+        tweet = Tweet(t['id'], t['user']['id'], t['text'], image_urls)
+        fav_list.append(tweet)
+
+    db_session.add_all(fav_list)
+    #db_session.commit()
+
+    response = {}
+    for t in db_session.query(Tweet).all():
+        response[t.tweet_id] = {
+            'user_id': t.user_id,
+            'text': t.tweet_text,
+            'image_url1': t.image_url_1,
+            'image_url2': t.image_url_2,
+            'image_url3': t.image_url_3,
+            'image_url4': t.image_url_4,
+        }
+
+    return response
