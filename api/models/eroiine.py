@@ -2,17 +2,17 @@ import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, String, Boolean, Text
 from sqlalchemy.ext.declarative import declarative_base
 
-from database import db_engine
+from database import tweet_db_engine
 
 Base = declarative_base()
 
 class Tweet(Base):
     __tablename__ = 'eroiine'
     tweet_id = Column(Integer, primary_key=True)
-    user_id = Column(String(50))
+    user_id = Column(Integer)
 
     # for filtering dataset
     tweet_text = Column(String(300))
@@ -21,6 +21,7 @@ class Tweet(Base):
     image_url_3 = Column(String(50))
     image_url_4 = Column(String(50))
 
+    tags = Column(Text())
     is_eroiine = Column(Boolean)
 
     def __init__(self, tweet_id: int, user_id: int, tweet_text: str, image_urls: list):
@@ -34,4 +35,4 @@ class Tweet(Base):
 
 
 if __name__ == '__main__':
-    Base.metadata.create_all(db_engine)
+    Base.metadata.create_all(tweet_db_engine)

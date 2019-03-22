@@ -1,0 +1,2 @@
+class cannotAuthTwitterException(Exception):
+    pass
