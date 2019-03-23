@@ -3,9 +3,11 @@ __pycache__
 .venv
 .vscode
 *.db
+api/databases
 
 # view
 node_modules
 
 # config
 settings/config.yaml
+settings/test.json
