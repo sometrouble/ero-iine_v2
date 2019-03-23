@@ -9,4 +9,4 @@ tweet_db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False
 user_db_engine = create_engine(SETTINGS['USER_DATABASE_URL'])
 user_db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=user_db_engine))
 
-settings_db = TinyDB(SETTINGS['SETTINGS_DATABASE_URL'])
+#settings_db = TinyDB(SETTINGS['SETTINGS_DATABASE_URL'])
