@@ -96,10 +96,13 @@ def is_img_tweet(tweet: dict):
     Returns:
         bool:
     """
-    media = tweet['entities']['media']
-    if len(media) > 0:
-        if media[0]['type'] == 'photo':
-            return True
+    try:
+        media = tweet['entities']['media']
+        if len(media) > 0:
+            if media[0]['type'] == 'photo':
+                return True
+    except Exception:
+        pass
     return False
 
 def hash_twitter_id(twitter_id: int):
